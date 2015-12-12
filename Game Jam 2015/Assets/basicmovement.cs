@@ -33,7 +33,7 @@ public class basicmovement : MonoBehaviour {
                 // StartCoroutine(RotationTimer()); uncomment this for time-based rotation
                 rotationFlag = true;
                 currentRotation = transform.rotation.eulerAngles.y;
-                Debug.Log(rotationFlag + "rotationFlag");
+                //Debug.Log(rotationFlag + "rotationFlag");
 
                 debugRotation = transform.rotation.eulerAngles.y;
             }
@@ -102,17 +102,17 @@ public class basicmovement : MonoBehaviour {
                     differenceFlag = false;
                 }
 
-                Debug.Log("stop rotating");
+                //Debug.Log("stop rotating");
             }
         }
 
         if (translationFlag) //translate in the given direction until the desired distance is reached
         {
             transform.Translate(new Vector3(translationSpeed * Time.deltaTime, 0, 0));
-            Debug.Log(totalTranslation);
+            //Debug.Log(totalTranslation);
             totalTranslation += Vector3.Distance(transform.position, currentPosition);
             currentPosition = transform.position;
-            Debug.Log("translating...");
+            //Debug.Log("translating...");
             if (totalTranslation >= translationDistance)
             {
                 translationFlag = false;
