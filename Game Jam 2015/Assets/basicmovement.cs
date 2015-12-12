@@ -8,8 +8,8 @@ public class basicmovement : MonoBehaviour {
     private int rotationDirection;
     private bool rotationFlag, translationFlag, differenceFlag;
 
-    private float currentRotation;
-    private Vector3 currentPosition, previousPosition;
+    private float currentRotation, totalTranslation;
+    private Vector3 currentPosition;
 
     private float debugRotation, differenceRotation;
     private MovesManager mm;
@@ -17,6 +17,7 @@ public class basicmovement : MonoBehaviour {
 	void Start () {
 	    mm = GetComponent<MovesManager>();
         tempRotationAngle = rotationAngle;
+        totalTranslation = 0;
 	}
 	
 	// Update is called once per frame
@@ -41,13 +42,13 @@ public class basicmovement : MonoBehaviour {
             currentRotation = transform.rotation.eulerAngles.y;
         }
 
-        if (Input.GetKey(inputTranslation))
+        if (Input.GetKeyDown(inputTranslation))
         {
             translationFlag = true;
-            previousPosition = transform.position;
+            currentPosition = transform.position;
         }
 
-
+        //////////////ROTATION//////////////////////////////////////////
         if (rotationFlag) //rotate in the given direction until the desired angle is reached
         {
            transform.Rotate(new Vector3(0, rotationDirection * rotationSpeed * Time.deltaTime, 0));
@@ -88,14 +89,20 @@ public class basicmovement : MonoBehaviour {
                 Debug.Log("stop rotating");
             }
         }
+        /////////////////////////////////////////////////////////////////
 
+
+        //////////////////TRANSLATION//////////////////////////
         if (translationFlag) //translate in the given direction until the desired distance is reached
         {
             transform.Translate(new Vector3(translationSpeed * Time.deltaTime, 0, 0));
-            Debug.Log("translating...");
-            if (Vector3.Distance(currentPosition, transform.position) >= translationDistance)
+
+            totalTranslation += Vector3.Distance(transform.position, currentPosition);
+            currentPosition = transform.position;
+            if(totalTranslation >= translationDistance)
             {
                 translationFlag = false;
+                totalTranslation = 0;
             }
         }
 
