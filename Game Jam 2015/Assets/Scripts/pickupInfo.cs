@@ -7,9 +7,13 @@ class pickupInfo
     public Texture2D ingameTexture, mathematicalTexture;
     public string name, description;
 
-    public pickupInfo(string nm, string descr, Texture2D ingTex, Texture2D mathTex)
+    public pickupInfo(string nm, string desc, string ingTex, string mathTex)
     {
         Obtained = false;
+        name = nm;
+        description = desc;
+        ingameTexture = (Texture2D)Resources.Load(ingTex);
+        mathematicalTexture = (Texture2D)Resources.Load(mathTex);
     }
 
     public bool Obtained

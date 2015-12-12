@@ -50,6 +50,7 @@ public class LevelManager : MonoBehaviour {
     void Start () {
         //Debug.Log("Instantiated level manager");
         DontDestroyOnLoad(this);
+        obtainedPickups = new List<pickupInfo>();
         currentLevel = -1;              //-1 indicates menu
         if (PlayerPrefs.HasKey("levelsUnlocked"))
         {
