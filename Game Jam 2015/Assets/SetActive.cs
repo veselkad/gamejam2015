@@ -11,6 +11,11 @@ public class SetActive : MonoBehaviour {
 	void Update () {
 	}
 
+    public void Disable(GameObject gm)
+    {
+        gm.SetActive(false);
+    }
+
     public void Disable()
     {
         gameObject.SetActive(false);

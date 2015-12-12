@@ -157,13 +157,13 @@ public class basicmovement : MonoBehaviour {
         if(col.gameObject.CompareTag("rotatepickup"))
         {
             mm.NumberOfRotateMoves += 10;
-            sa.Disable();
+            col.gameObject.SetActive(false);
         }
 
         if(col.gameObject.CompareTag("translatepickup"))
         {
             mm.numberOfTranslateMoves += 10;
-            sa.Disable();
+            col.gameObject.SetActive(false);
         }
     }
 
