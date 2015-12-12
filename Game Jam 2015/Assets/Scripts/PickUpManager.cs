@@ -27,11 +27,12 @@ public class PickUpManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         basicmovement player = GameObject.FindObjectOfType<basicmovement>();
+        
+        pickUp.transform.Rotate(new Vector3(0, 30, 0) * Time.deltaTime);
         if (Vector3.Distance(player.transform.position, pickUp.transform.position) < 1)
         {
-            LevelManager.completeLevel();
             Debug.Log("complete");
+            LevelManager.completeLevel();
         }
-        pickUp.transform.Rotate(new Vector3(0, 30, 0) * Time.deltaTime);
     }
 }

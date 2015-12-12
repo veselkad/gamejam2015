@@ -1,12 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using UnityEditor;
 
 public class LevelManager : MonoBehaviour {
 
     static int currentLevel;
     static int levelsUnlocked;
     static menuStatus status;
+
+    [MenuItem("Edit/Reset Playerprefs")]
+    public static void DeletePlayerPrefs() { PlayerPrefs.DeleteAll(); }
 
     public static menuStatus Status
     {
@@ -62,12 +66,13 @@ public class LevelManager : MonoBehaviour {
 
     //}
 
-    public void loadLevel(int level)
+    public static void loadLevel(int level)
     {
         if (level == -1)
         {
             //Debug.Log("level -1");
             Status = menuStatus.mainMenu;
+            Application.LoadLevel("mainMenu");
         }
         else
         {
@@ -81,8 +86,11 @@ public class LevelManager : MonoBehaviour {
     {
         if (currentLevel == levelsUnlocked)
         {
-            LevelsUnlocked++;
+            LevelsUnlocked = LevelsUnlocked + 1;
         }
+        loadLevel(-1);
+        Status = menuStatus.levelSelect;
+        //Debug.Log("Loaded level select? ");
     }
 
     void OnGUI()
@@ -124,6 +132,7 @@ public class LevelManager : MonoBehaviour {
         }
         else if (Status == menuStatus.levelSelect)
         {
+            //Debug.Log("Level select :D");
             for(int i = 0; i<=levelsUnlocked; i++)
             {
                 if (GUILayout.Button((i + 1).ToString()))
