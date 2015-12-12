@@ -12,11 +12,20 @@ public class LevelManager : MonoBehaviour {
     static int levelsUnlocked;
     static int maxLevel;
     static menuStatus status;
-    private List<pickupInfo> obtainedPickups;
+    public static List<pickupInfo> obtainedPickups;
+    public static bool paused;
 
 #if UNITY_EDITOR
     [MenuItem("Edit/Reset Playerprefs")]
     public static void DeletePlayerPrefs() { PlayerPrefs.DeleteAll(); }
+
+    [MenuItem("Play/Play game")]
+    public static void PlayGame()
+    {
+        EditorApplication.isPlaying = true;
+        Application.UnloadLevel(Application.loadedLevel);
+        Application.LoadLevel("init");
+    }
 #endif
 
     public static menuStatus Status
@@ -51,6 +60,8 @@ public class LevelManager : MonoBehaviour {
         //Debug.Log("Instantiated level manager");
         DontDestroyOnLoad(this);
         obtainedPickups = new List<pickupInfo>();
+        obtainedPickups.Add(new pickupInfo("Translation", "Adds translation moves", "translation", "translation"));
+        obtainedPickups.Add(new pickupInfo("Rotation", "Adds rotation moves", "rotation", "rotation"));
         currentLevel = -1;              //-1 indicates menu
         if (PlayerPrefs.HasKey("levelsUnlocked"))
         {
@@ -134,8 +145,12 @@ public class LevelManager : MonoBehaviour {
         }
         else if (Status == menuStatus.pickupDisplay)
         {
+            if (GUILayout.Button("Return"))
+            {
+                Status = menuStatus.mainMenu;
+            }
             int x, y;
-            y = 20;
+            y = 25;
             foreach (pickupInfo pui in obtainedPickups)
             {
                 x = 15;
@@ -164,6 +179,22 @@ public class LevelManager : MonoBehaviour {
                 }
             }
             if (GUILayout.Button("Return"))
+            {
+                Status = menuStatus.mainMenu;
+            }
+        }
+        else if (Status == menuStatus.ingame && paused)
+        {
+            if (GUILayout.Button("Return to game"))
+            {
+                paused = false;
+            }
+            else if (GUILayout.Button("Reset"))
+            {
+                Application.LoadLevel(Application.loadedLevel);
+                paused = false;
+            }
+            else if (GUILayout.Button("Quit to main menu"))
             {
                 Status = menuStatus.mainMenu;
             }

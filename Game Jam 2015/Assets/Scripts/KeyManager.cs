@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class KeyConfig : MonoBehaviour {
+public class KeyManager : MonoBehaviour {
     public string rotationLeft, rotationRight, translation;
     public static string inputRotationLeft, inputRotationRight, inputTranslation;
 
@@ -14,6 +14,9 @@ public class KeyConfig : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+	    if (Input.GetKeyDown("escape"))
+        {
+            LevelManager.paused = !LevelManager.paused;
+        }
 	}
 }

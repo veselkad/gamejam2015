@@ -14,15 +14,15 @@ public class basicmovement : MonoBehaviour {
     private float debugRotation, differenceRotation, totalTranslation;
     private MovesManager mm;
     private LevelManager lm;
-    private SetActive sa;
+    //private SetActive sa;
 
 	// Use this for initialization
 	void Start () {
-        inputRotationLeft = KeyConfig.inputRotationLeft;
-        inputRotationRight = KeyConfig.inputRotationRight;
-        inputTranslation = KeyConfig.inputTranslation;
+        inputRotationLeft = KeyManager.inputRotationLeft;
+        inputRotationRight = KeyManager.inputRotationRight;
+        inputTranslation = KeyManager.inputTranslation;
         mm = GameObject.FindObjectOfType<MovesManager>();
-        sa = GameObject.FindObjectOfType<SetActive>();
+        //sa = GameObject.FindObjectOfType<SetActive>();
         //lm = GameObject.FindObjectOfType<LevelManager>();
         tempRotationAngle = rotationAngle;
         totalTranslation = 0;
@@ -35,46 +35,54 @@ public class basicmovement : MonoBehaviour {
         {
             return;
         }
-	    if(Input.GetKeyDown(inputRotationLeft)) //trigger rotate left
+        if (!LevelManager.paused)
         {
-            if (mm.NumberOfRotateMoves > 0)
+            if (Input.GetKeyDown(inputRotationLeft)) //trigger rotate left
             {
-                mm.NumberOfRotateMoves--;
-                rotationDirection = -1;
-                // StartCoroutine(RotationTimer()); uncomment this for time-based rotation
-                rotationFlag = true;
-                currentRotation = transform.rotation.eulerAngles.y;
-                //Debug.Log(rotationFlag + "rotationFlag");
+                if (mm.NumberOfRotateMoves > 0)
+                {
+                    mm.NumberOfRotateMoves--;
+                    rotationDirection = -1;
+                    // StartCoroutine(RotationTimer()); uncomment this for time-based rotation
+                    rotationFlag = true;
+                    currentRotation = transform.rotation.eulerAngles.y;
+                    //Debug.Log(rotationFlag + "rotationFlag");
 
-                debugRotation = transform.rotation.eulerAngles.y;
+                    debugRotation = transform.rotation.eulerAngles.y;
+                }
+
             }
-            
-        }
 
-        if (Input.GetKeyDown(inputRotationRight)) //trigger rotate right
-        {
-            if (mm.NumberOfRotateMoves > 0)
+            if (Input.GetKeyDown(inputRotationRight)) //trigger rotate right
             {
-                mm.NumberOfRotateMoves--;
-                rotationDirection = 1;
-                // StartCoroutine(RotationTimer()); uncomment this for time-based rotation
-                rotationFlag = true;
-                currentRotation = transform.rotation.eulerAngles.y;
-            }
-            
-        }
+                if (mm.NumberOfRotateMoves > 0)
+                {
+                    mm.NumberOfRotateMoves--;
+                    rotationDirection = 1;
+                    // StartCoroutine(RotationTimer()); uncomment this for time-based rotation
+                    rotationFlag = true;
+                    currentRotation = transform.rotation.eulerAngles.y;
+                }
 
-        if (Input.GetKeyDown(inputTranslation))
-        {
-            if (mm.NumberOfTranslateMoves > 0)
+            }
+
+            if (Input.GetKeyDown(inputTranslation))
             {
-                mm.NumberOfTranslateMoves--;
-                translationFlag = true;
-                currentPosition = transform.position;
-            }
-            
-        }
+                if (mm.NumberOfTranslateMoves > 0)
+                {
+                    mm.NumberOfTranslateMoves--;
+                    translationFlag = true;
+                    currentPosition = transform.position;
+                }
 
+            }
+
+            if (Input.GetKeyDown("r"))
+            {
+                Application.LoadLevel(Application.loadedLevel);
+            }
+        }
+	    
 
         if (rotationFlag) //rotate in the given direction until the desired angle is reached
         {
@@ -133,11 +141,6 @@ public class basicmovement : MonoBehaviour {
             }
         }
 
-        
-        
-
-
-
     }
 
     void OnCollisionEnter(Collision col)
@@ -156,12 +159,26 @@ public class basicmovement : MonoBehaviour {
     {
         if(col.gameObject.CompareTag("rotatepickup"))
         {
+            foreach(pickupInfo pui in LevelManager.obtainedPickups)
+            {
+                if (pui.name == "Rotation")
+                {
+                    pui.Obtained = true;
+                }
+            }
             mm.NumberOfRotateMoves += 10;
             col.gameObject.SetActive(false);
         }
 
         if(col.gameObject.CompareTag("translatepickup"))
         {
+            foreach (pickupInfo pui in LevelManager.obtainedPickups)
+            {
+                if (pui.name == "Translation")
+                {
+                    pui.Obtained = true;
+                }
+            }
             mm.numberOfTranslateMoves += 10;
             col.gameObject.SetActive(false);
         }

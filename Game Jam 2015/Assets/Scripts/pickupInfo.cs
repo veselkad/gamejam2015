@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-class pickupInfo
+public class pickupInfo
 {
     bool obtained;
-    public static Texture2D unknownTexture = (Texture2D)Resources.Load("unknownPickup.png");
+    public static Texture2D unknownTexture = (Texture2D)Resources.Load("unknown");
     public Texture2D ingameTexture, mathematicalTexture;
     public string name, description;
 
@@ -13,6 +13,8 @@ class pickupInfo
         name = nm;
         description = desc;
         ingameTexture = (Texture2D)Resources.Load(ingTex);
+        Debug.Log(ingTex);
+        Debug.Log(ingameTexture);
         mathematicalTexture = (Texture2D)Resources.Load(mathTex);
     }
 
