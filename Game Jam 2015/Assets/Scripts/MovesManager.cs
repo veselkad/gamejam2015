@@ -3,7 +3,7 @@ using System.Collections;
 
 public class MovesManager : MonoBehaviour {
 
-    int numberOfTranslateMoves, numberOfRotateMoves;
+    public int numberOfTranslateMoves, numberOfRotateMoves;
 
     public int NumberOfRotateMoves
     {
@@ -33,8 +33,8 @@ public class MovesManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        numberOfRotateMoves = 3;
-        numberOfTranslateMoves = 3;
+       // numberOfRotateMoves = 3;
+       // numberOfTranslateMoves = 3;
 	}
 	
 	// Update is called once per frame
