@@ -7,6 +7,7 @@ public class LevelManager : MonoBehaviour {
 
     static int currentLevel;
     static int levelsUnlocked;
+    static int maxLevel;
     static menuStatus status;
 
     [MenuItem("Edit/Reset Playerprefs")]
@@ -52,6 +53,7 @@ public class LevelManager : MonoBehaviour {
         {
             LevelsUnlocked = 0;
         }
+        maxLevel = Application.levelCount - 3;              //Max index, -2 for init and menu, -1 for level number to level index
         //Debug.Log("Started");
         Status = menuStatus.mainMenu;
 	}
@@ -107,10 +109,6 @@ public class LevelManager : MonoBehaviour {
             {
                 Status = menuStatus.levelSelect;
             }
-            else if (GUILayout.Button("Pickups obtained"))
-            {
-                Status = menuStatus.pickupDisplay;
-            }
             else if (GUILayout.Button("More games"))
             {
                 Application.OpenURL("https://drproject.twi.tudelft.nl/ewi3620tu1/Index.html");
@@ -123,23 +121,18 @@ public class LevelManager : MonoBehaviour {
                 Application.Quit();
             }
         }
-        else if (Status == menuStatus.pickupDisplay)
-        {
-            if (GUILayout.Button("Return"))
-            {
-                //Debug.Log("Returned");
-                Status = menuStatus.mainMenu;
-            }
-        }
         else if (Status == menuStatus.levelSelect)
         {
-            //Debug.Log("Level select :D");
-            for(int i = 0; i<=levelsUnlocked; i++)
+            for(int i = 0; i<=Math.Min(levelsUnlocked, maxLevel); i++)
             {
                 if (GUILayout.Button((i + 1).ToString()))
                 {
                     loadLevel(i);
                 }
+            }
+            if (GUILayout.Button("Return"))
+            {
+                Status = menuStatus.mainMenu;
             }
         }
     }
@@ -152,7 +145,6 @@ public enum menuStatus
 {
     ingame,
     mainMenu,
-    pickupDisplay,
     levelSelect,
     //achievementsDisplay,
 }
