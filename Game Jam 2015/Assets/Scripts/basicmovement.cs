@@ -4,9 +4,9 @@ using System.Collections;
 public class basicmovement : MonoBehaviour {
 
     public string inputRotationLeft, inputRotationRight, inputTranslation;
-    public float rotationSpeed, translationSpeed, rotationTime, rotationAngle, tempRotationAngle, translationDistance;
+    public float rotationSpeed, translationSpeed, rotationTime, rotationAngle, tempRotationAngle, translationDistance, reloadTime;
     private int rotationDirection;
-    private bool rotationFlag, translationFlag, differenceFlag;
+    private bool rotationFlag, translationFlag, differenceFlag, reloadFlag;
 
     private float currentRotation;
     private Vector3 currentPosition, previousPosition;
@@ -21,6 +21,7 @@ public class basicmovement : MonoBehaviour {
         lm = GameObject.FindObjectOfType<LevelManager>();
         tempRotationAngle = rotationAngle;
         totalTranslation = 0;
+        reloadFlag = true;
 	}
 	
 	// Update is called once per frame
@@ -99,13 +100,14 @@ public class basicmovement : MonoBehaviour {
 
             if (Mathf.Abs(currentRotation - transform.rotation.eulerAngles.y) >= rotationAngle)
             {
-                rotationFlag = false;
+                //rotationFlag = false;
 
-                if (differenceFlag)
-                {
-                    rotationAngle = tempRotationAngle;
-                    differenceFlag = false;
-                }
+                //if (differenceFlag)
+                //{
+                //    rotationAngle = tempRotationAngle;
+                //    differenceFlag = false;
+                //}
+                ResetRotation();
 
                 //Debug.Log("stop rotating");
             }
@@ -120,8 +122,9 @@ public class basicmovement : MonoBehaviour {
             //Debug.Log("translating...");
             if (totalTranslation >= translationDistance)
             {
-                translationFlag = false;
-                totalTranslation = 0;
+                //translationFlag = false;
+                //totalTranslation = 0;
+                ResetTranslation();
             }
         }
 
@@ -130,10 +133,49 @@ public class basicmovement : MonoBehaviour {
 
     }
 
+    void OnCollisionEnter(Collision col)
+    {
+        Debug.Log("testa");
+        //ResetTranslation();
+        //ResetRotation();
+
+        if (reloadFlag)
+        {
+            StartCoroutine(ReloadTime());
+        }
+    }
+
+    IEnumerator ReloadTime()
+    {
+        reloadFlag = false;
+        yield return new WaitForSeconds(reloadTime);
+        Application.LoadLevel(Application.loadedLevel);
+        reloadFlag = true;
+    }
+
+
     //IEnumerator RotationTimer() uncomment this for time-based rotation
     //{
     //    rotationFlag = true; 
     //    yield return new WaitForSeconds(rotationTime);
     //    rotationFlag = false;
     //}
+
+    void ResetTranslation()
+    {
+        translationFlag = false;
+        totalTranslation = 0;
+    }
+    
+    void ResetRotation()
+    {
+        rotationFlag = false;
+
+        if (differenceFlag)
+        {
+            rotationAngle = tempRotationAngle;
+            differenceFlag = false;
+        }
+
+    }
 }
