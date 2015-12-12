@@ -3,7 +3,7 @@ using System.Collections;
 
 public class basicmovement : MonoBehaviour {
 
-    public string inputRotationLeft, inputRotationRight, inputTranslation;
+    private string inputRotationLeft, inputRotationRight, inputTranslation;
     public float rotationSpeed, translationSpeed, rotationTime, rotationAngle, tempRotationAngle, translationDistance, reloadTime;
     private int rotationDirection;
     private bool rotationFlag, translationFlag, differenceFlag, reloadFlag;
@@ -17,6 +17,9 @@ public class basicmovement : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        inputRotationLeft = KeyConfig.inputRotationLeft;
+        inputRotationRight = KeyConfig.inputRotationRight;
+        inputTranslation = KeyConfig.inputTranslation;
         mm = GameObject.FindObjectOfType<MovesManager>();
         //lm = GameObject.FindObjectOfType<LevelManager>();
         tempRotationAngle = rotationAngle;

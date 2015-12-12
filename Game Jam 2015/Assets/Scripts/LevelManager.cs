@@ -76,6 +76,7 @@ public class LevelManager : MonoBehaviour {
         }
         else
         {
+            currentLevel = level;
             Status = menuStatus.ingame;
             //Debug.Log("Status: " + status);
             Application.LoadLevel("level"+level);
