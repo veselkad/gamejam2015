@@ -18,7 +18,7 @@ public class basicmovement : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         mm = GameObject.FindObjectOfType<MovesManager>();
-        lm = GameObject.FindObjectOfType<LevelManager>();
+        //lm = GameObject.FindObjectOfType<LevelManager>();
         tempRotationAngle = rotationAngle;
         totalTranslation = 0;
         reloadFlag = true;
@@ -26,7 +26,7 @@ public class basicmovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (lm.Status != menuStatus.ingame)
+        if (LevelManager.Status != menuStatus.ingame)
         {
             return;
         }

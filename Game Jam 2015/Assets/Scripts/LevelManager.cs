@@ -4,11 +4,11 @@ using System;
 
 public class LevelManager : MonoBehaviour {
 
-    int currentLevel;
-    int levelsUnlocked;
-    menuStatus status;
+    static int currentLevel;
+    static int levelsUnlocked;
+    static menuStatus status;
 
-    public menuStatus Status
+    public static menuStatus Status
     {
         get
         {
@@ -21,7 +21,7 @@ public class LevelManager : MonoBehaviour {
         }
     }
 
-    public int LevelsUnlocked
+    public static int LevelsUnlocked
     {
         get
         {
@@ -38,7 +38,7 @@ public class LevelManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
         Debug.Log("Instantiated level manager");
-        DontDestroyOnLoad(this);
+        //DontDestroyOnLoad();
         currentLevel = -1;              //-1 indicates menu
         if (PlayerPrefs.HasKey("levelsUnlocked"))
         {
@@ -50,9 +50,9 @@ public class LevelManager : MonoBehaviour {
         }
         Status = menuStatus.mainMenu;
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
         Debug.Log(status);
     }
 
@@ -75,7 +75,7 @@ public class LevelManager : MonoBehaviour {
         }
     }
 
-    public void completeLevel()
+    public static void completeLevel()
     {
         if (currentLevel == levelsUnlocked)
         {
