@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
+using System.Collections.Generic;
 
 public class LevelManager : MonoBehaviour {
 
@@ -9,9 +12,12 @@ public class LevelManager : MonoBehaviour {
     static int levelsUnlocked;
     static int maxLevel;
     static menuStatus status;
+    private List<pickupInfo> obtainedPickups;
 
+#if UNITY_EDITOR
     [MenuItem("Edit/Reset Playerprefs")]
     public static void DeletePlayerPrefs() { PlayerPrefs.DeleteAll(); }
+#endif
 
     public static menuStatus Status
     {
@@ -109,6 +115,10 @@ public class LevelManager : MonoBehaviour {
             {
                 Status = menuStatus.levelSelect;
             }
+            else if (GUILayout.Button("Pickups"))
+            {
+                Status = menuStatus.pickupDisplay;
+            }
             else if (GUILayout.Button("More games"))
             {
                 Application.OpenURL("https://drproject.twi.tudelft.nl/ewi3620tu1/Index.html");
@@ -119,6 +129,28 @@ public class LevelManager : MonoBehaviour {
                 UnityEditor.EditorApplication.isPlaying = false;
 #endif
                 Application.Quit();
+            }
+        }
+        else if (Status == menuStatus.pickupDisplay)
+        {
+            int x, y;
+            y = 20;
+            foreach (pickupInfo pui in obtainedPickups)
+            {
+                x = 15;
+                GUI.DrawTexture(new Rect(x, y, 50, 50), pui.ingameTexture);
+                x = 75;
+                GUI.Label(new Rect(x, y, 200, 50), pui.name + "\n" + pui.description);
+                x = 300;
+                if (pui.Obtained)
+                {
+                    GUI.DrawTexture(new Rect(x, y, 50, 50), pui.mathematicalTexture);
+                }
+                else
+                {
+                    GUI.DrawTexture(new Rect(x, y, 50, 50), pickupInfo.unknownTexture);
+                }
+                y += 60;
             }
         }
         else if (Status == menuStatus.levelSelect)
@@ -140,12 +172,12 @@ public class LevelManager : MonoBehaviour {
 
 }
 
-
 public enum menuStatus
 {
     ingame,
     mainMenu,
     levelSelect,
+    pickupDisplay,
     //achievementsDisplay,
 }
 
