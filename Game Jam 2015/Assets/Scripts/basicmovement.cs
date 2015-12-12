@@ -14,6 +14,7 @@ public class basicmovement : MonoBehaviour {
     private float debugRotation, differenceRotation, totalTranslation;
     private MovesManager mm;
     private LevelManager lm;
+    private SetActive sa;
 
 	// Use this for initialization
 	void Start () {
@@ -21,6 +22,7 @@ public class basicmovement : MonoBehaviour {
         inputRotationRight = KeyConfig.inputRotationRight;
         inputTranslation = KeyConfig.inputTranslation;
         mm = GameObject.FindObjectOfType<MovesManager>();
+        sa = GameObject.FindObjectOfType<SetActive>();
         //lm = GameObject.FindObjectOfType<LevelManager>();
         tempRotationAngle = rotationAngle;
         totalTranslation = 0;
@@ -131,6 +133,8 @@ public class basicmovement : MonoBehaviour {
             }
         }
 
+        
+        
 
 
 
@@ -138,13 +142,28 @@ public class basicmovement : MonoBehaviour {
 
     void OnCollisionEnter(Collision col)
     {
-        Debug.Log("testa");
+        Debug.Log("collision");
         //ResetTranslation();
         //ResetRotation();
 
-        if (reloadFlag)
+        if (reloadFlag && !col.gameObject.CompareTag("rotatepickup") && !col.gameObject.CompareTag("translatepickup"))
         {
             StartCoroutine(ReloadTime());
+        }
+    }
+
+    void OnTriggerEnter(Collider col)
+    {
+        if(col.gameObject.CompareTag("rotatepickup"))
+        {
+            mm.NumberOfRotateMoves += 10;
+            col.gameObject.SetActive(false);
+        }
+
+        if(col.gameObject.CompareTag("translatepickup"))
+        {
+            mm.numberOfTranslateMoves += 10;
+            col.gameObject.SetActive(false);
         }
     }
 
