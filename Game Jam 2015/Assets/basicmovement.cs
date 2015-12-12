@@ -11,7 +11,7 @@ public class basicmovement : MonoBehaviour {
     private float currentRotation;
     private Vector3 currentPosition, previousPosition;
 
-    private float debugRotation, differenceRotation;
+    private float debugRotation, differenceRotation, totalTranslation;
     private MovesManager mm;
 	// Use this for initialization
 	void Start () {
@@ -19,6 +19,7 @@ public class basicmovement : MonoBehaviour {
             //GetComponent<MovesManager>();
         Debug.Log(mm);
         tempRotationAngle = rotationAngle;
+        totalTranslation = 0;
 	}
 	
 	// Update is called once per frame
@@ -58,7 +59,7 @@ public class basicmovement : MonoBehaviour {
             {
                 mm.NumberOfTranslateMoves--;
                 translationFlag = true;
-                previousPosition = transform.position;
+                currentPosition = transform.position;
             }
             
         }
@@ -108,10 +109,14 @@ public class basicmovement : MonoBehaviour {
         if (translationFlag) //translate in the given direction until the desired distance is reached
         {
             transform.Translate(new Vector3(translationSpeed * Time.deltaTime, 0, 0));
+            Debug.Log(totalTranslation);
+            totalTranslation += Vector3.Distance(transform.position, currentPosition);
+            currentPosition = transform.position;
             Debug.Log("translating...");
-            if (Vector3.Distance(currentPosition, transform.position) >= translationDistance)
+            if (totalTranslation >= translationDistance)
             {
                 translationFlag = false;
+                totalTranslation = 0;
             }
         }
 

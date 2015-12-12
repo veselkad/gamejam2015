@@ -2,17 +2,18 @@
 # Store this file at the root of your local repository.
 .DS_Store
 Game Jam 2015/Library/AssetImportState
-Game Jam 2015Library/AssetServerCacheV3
-Game Jam 2015Library/FailedAssetImports.txt
-Game Jam 2015Library/ScriptAssemblies
-Game Jam 2015Library/ScriptMapper
-Game Jam 2015Library/assetDatabase3
-Game Jam 2015Library/cache
-Game Jam 2015Library/expandedItems
-Game Jam 2015Library/metadata
-Game Jam 2015Library/previews
-Game Jam 2015Library/guidmapper
-Game Jam 2015Temp
+Game Jam 2015/Library/AssetServerCacheV3
+Game Jam 2015/Library/FailedAssetImports.txt
+Game Jam 2015/Library/ScriptAssemblies
+Game Jam 2015/Library/ScriptMapper
+Game Jam 2015/Library/assetDatabase3
+Game Jam 2015/Library/cache
+Game Jam 2015/Library/expandedItems
+Game Jam 2015/Library/metadata
+Game Jam 2015/Library/previews
+Game Jam 2015/Library/guidmapper
+Game Jam 2015/Temp
 *.csproj
 *.pidb
 *.sln
+Game Jam 2015/Library/
