@@ -21,16 +21,39 @@ public class LevelManager : MonoBehaviour {
         }
     }
 
+    public int LevelsUnlocked
+    {
+        get
+        {
+            return levelsUnlocked;
+        }
+
+        set
+        {
+            levelsUnlocked = value;
+            PlayerPrefs.SetInt("levelsUnlocked", value);
+        }
+    }
+
     // Use this for initialization
     void Start () {
+        Debug.Log("Instantiated level manager");
+        DontDestroyOnLoad(this);
         currentLevel = -1;              //-1 indicates menu
-        levelsUnlocked = 5;             //Index of highest level available
+        if (PlayerPrefs.HasKey("levelsUnlocked"))
+        {
+            levelsUnlocked = PlayerPrefs.GetInt("levelsUnlocked");
+        }
+        else
+        {
+            LevelsUnlocked = 0;
+        }
         Status = menuStatus.mainMenu;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        
+        Debug.Log(status);
     }
 
     //private void displayMenu()
@@ -47,6 +70,8 @@ public class LevelManager : MonoBehaviour {
         else
         {
             Status = menuStatus.ingame;
+            Debug.Log("Status: " + status);
+            Application.LoadLevel("level"+level);
         }
     }
 
@@ -54,7 +79,7 @@ public class LevelManager : MonoBehaviour {
     {
         if (currentLevel == levelsUnlocked)
         {
-            levelsUnlocked++;
+            LevelsUnlocked++;
         }
     }
 
@@ -62,10 +87,10 @@ public class LevelManager : MonoBehaviour {
     {
         if (Status == menuStatus.mainMenu)
         {
+            Debug.Log("wut");
             if (GUILayout.Button("Play game"))
             {
-                Status = menuStatus.ingame;
-                currentLevel = levelsUnlocked;
+                loadLevel(levelsUnlocked);
             }
             else if (GUILayout.Button("Level select"))
             {
