@@ -37,8 +37,8 @@ public class LevelManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        Debug.Log("Instantiated level manager");
-        //DontDestroyOnLoad();
+        //Debug.Log("Instantiated level manager");
+        DontDestroyOnLoad(this);
         currentLevel = -1;              //-1 indicates menu
         if (PlayerPrefs.HasKey("levelsUnlocked"))
         {
@@ -48,12 +48,13 @@ public class LevelManager : MonoBehaviour {
         {
             LevelsUnlocked = 0;
         }
+        //Debug.Log("Started");
         Status = menuStatus.mainMenu;
 	}
 
     // Update is called once per frame
     void Update () {
-        Debug.Log(status);
+        //Debug.Log(status);
     }
 
     //private void displayMenu()
@@ -65,12 +66,13 @@ public class LevelManager : MonoBehaviour {
     {
         if (level == -1)
         {
+            //Debug.Log("level -1");
             Status = menuStatus.mainMenu;
         }
         else
         {
             Status = menuStatus.ingame;
-            Debug.Log("Status: " + status);
+            //Debug.Log("Status: " + status);
             Application.LoadLevel("level"+level);
         }
     }
@@ -87,7 +89,7 @@ public class LevelManager : MonoBehaviour {
     {
         if (Status == menuStatus.mainMenu)
         {
-            Debug.Log("wut");
+            //Debug.Log("wut");
             if (GUILayout.Button("Play game"))
             {
                 loadLevel(levelsUnlocked);
@@ -116,6 +118,7 @@ public class LevelManager : MonoBehaviour {
         {
             if (GUILayout.Button("Return"))
             {
+                //Debug.Log("Returned");
                 Status = menuStatus.mainMenu;
             }
         }
