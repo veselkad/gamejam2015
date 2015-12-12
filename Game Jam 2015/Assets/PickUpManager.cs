@@ -2,8 +2,8 @@
 using System.Collections;
 
 public class PickUpManager : MonoBehaviour {
-
     private GameObject pickUp;
+    private LevelManager levelManager;
 
     public GameObject PickUp
     {
@@ -21,6 +21,7 @@ public class PickUpManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
         pickUp = GameObject.FindGameObjectWithTag("pickUp");
+        levelManager = GameObject.FindObjectOfType<LevelManager>();
 	}
 	
 	// Update is called once per frame
@@ -28,8 +29,8 @@ public class PickUpManager : MonoBehaviour {
         basicmovement player = GameObject.FindObjectOfType<basicmovement>();
         if (Vector3.Distance(player.transform.position, pickUp.transform.position) < 1)
         {
-            Debug.Log("Picked up pickup!");
+            levelManager.completeLevel();
         }
-        //pickUp.transform.
-	}
+        pickUp.transform.Rotate(new Vector3(0, 30, 0) * Time.deltaTime);
+    }
 }
