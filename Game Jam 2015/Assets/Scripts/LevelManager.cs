@@ -8,11 +8,24 @@ public class LevelManager : MonoBehaviour {
     int levelsUnlocked;
     menuStatus status;
 
-	// Use this for initialization
-	void Start () {
+    public menuStatus Status
+    {
+        get
+        {
+            return status;
+        }
+
+        set
+        {
+            status = value;
+        }
+    }
+
+    // Use this for initialization
+    void Start () {
         currentLevel = -1;              //-1 indicates menu
-        levelsUnlocked = 0;             //Index of highest level available
-        status = menuStatus.mainMenu;
+        levelsUnlocked = 5;             //Index of highest level available
+        Status = menuStatus.mainMenu;
 	}
 	
 	// Update is called once per frame
@@ -29,11 +42,11 @@ public class LevelManager : MonoBehaviour {
     {
         if (level == -1)
         {
-            status = menuStatus.mainMenu;
+            Status = menuStatus.mainMenu;
         }
         else
         {
-            status = menuStatus.ingame;
+            Status = menuStatus.ingame;
         }
     }
 
@@ -47,15 +60,20 @@ public class LevelManager : MonoBehaviour {
 
     void OnGUI()
     {
-        if (status == menuStatus.mainMenu)
+        if (Status == menuStatus.mainMenu)
         {
             if (GUILayout.Button("Play game"))
             {
-                status = menuStatus.ingame;
+                Status = menuStatus.ingame;
+                currentLevel = levelsUnlocked;
+            }
+            else if (GUILayout.Button("Level select"))
+            {
+                Status = menuStatus.levelSelect;
             }
             else if (GUILayout.Button("Pickups obtained"))
             {
-                status = menuStatus.pickupDisplay;
+                Status = menuStatus.pickupDisplay;
             }
             else if (GUILayout.Button("More games"))
             {
@@ -69,14 +87,25 @@ public class LevelManager : MonoBehaviour {
                 Application.Quit();
             }
         }
-        else if (status == menuStatus.pickupDisplay)
+        else if (Status == menuStatus.pickupDisplay)
         {
             if (GUILayout.Button("Return"))
             {
-                status = menuStatus.mainMenu;
+                Status = menuStatus.mainMenu;
+            }
+        }
+        else if (Status == menuStatus.levelSelect)
+        {
+            for(int i = 0; i<=levelsUnlocked; i++)
+            {
+                if (GUILayout.Button((i + 1).ToString()))
+                {
+                    loadLevel(i);
+                }
             }
         }
     }
+    
 
 }
 
@@ -86,6 +115,7 @@ public enum menuStatus
     ingame,
     mainMenu,
     pickupDisplay,
-    LevelSelect,
+    levelSelect,
     //achievementsDisplay,
 }
+

@@ -13,17 +13,22 @@ public class basicmovement : MonoBehaviour {
 
     private float debugRotation, differenceRotation, totalTranslation;
     private MovesManager mm;
+    private LevelManager lm;
+
 	// Use this for initialization
 	void Start () {
         mm = GameObject.FindObjectOfType<MovesManager>();
-            //GetComponent<MovesManager>();
-        Debug.Log(mm);
+        lm = GameObject.FindObjectOfType<LevelManager>();
         tempRotationAngle = rotationAngle;
         totalTranslation = 0;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        if (lm.Status != menuStatus.ingame)
+        {
+            return;
+        }
 	    if(Input.GetKeyDown(inputRotationLeft)) //trigger rotate left
         {
             if (mm.NumberOfRotateMoves > 0)

@@ -5,6 +5,7 @@ public class TextStats : MonoBehaviour {
 
     public Text txt;
     private MovesManager mm;
+    private LevelManager lm;
 
 	// Use this for initialization
 	void Start () {
@@ -12,11 +13,20 @@ public class TextStats : MonoBehaviour {
         Debug.Log(txt);
         txt.text = "";
         mm = FindObjectOfType<MovesManager>();
+        lm = FindObjectOfType<LevelManager>();
         Debug.Log(mm);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        txt.text = "rotations left: " + mm.NumberOfRotateMoves + "\ntranslations left: " + mm.NumberOfTranslateMoves;
+        if (lm.Status==menuStatus.ingame)
+        {
+            txt.text = "rotations left: " + mm.NumberOfRotateMoves + "\ntranslations left: " + mm.NumberOfTranslateMoves;
+        }
+        else
+        {
+            txt.text = "";
+        }
+        
 	}
 }
