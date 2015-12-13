@@ -102,6 +102,13 @@ public class LevelManager : MonoBehaviour {
 
     public static void completeLevel()
     {
+        if (currentLevel == 0)
+        {
+            AchievementManager.Trigger("First steps");
+        }
+        else if(currentLevel == 4){
+            AchievementManager.Trigger("Master");
+        }
         if (currentLevel == levelsUnlocked)
         {
             LevelsUnlocked = LevelsUnlocked + 1;

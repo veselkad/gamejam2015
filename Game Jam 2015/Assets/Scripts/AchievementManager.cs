@@ -28,9 +28,12 @@ public class AchievementManager : MonoBehaviour {
         {
             if (ach.name== achName)
             {
-                mostRecentAch = ach;
-                achMan.StartCoroutine(achMan.triggerTimer());
-                ach.Trigger();
+                if (!ach.Obtained)
+                {
+                    mostRecentAch = ach;
+                    achMan.StartCoroutine(achMan.triggerTimer());
+                    ach.Trigger();
+                }
                 break;
             }
         }
@@ -47,11 +50,8 @@ public class AchievementManager : MonoBehaviour {
 
     IEnumerator triggerTimer()
     {
-        Debug.Log("Yay!");
         yield return new WaitForSeconds(3);
         mostRecentAch = null;
-        Debug.Log("Yay?");
-        //yield break;
     }
 
 }
