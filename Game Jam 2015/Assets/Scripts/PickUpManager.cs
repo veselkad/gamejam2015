@@ -34,12 +34,18 @@ public class PickUpManager : MonoBehaviour
     void Update()
     {
         basicmovement player = GameObject.FindObjectOfType<basicmovement>();
-
-        Debug.Log(pickUp.name);
         pickUp.transform.Rotate(new Vector3(0, rotationSpeed, 0) * Time.deltaTime);
         pickUp.transform.Translate(new Vector3(0, translationSpeed, 0) * Time.deltaTime);
-
-        if (Vector3.Distance(player.transform.position, pickUp.transform.position) < 1.6)
+        foreach(pickupInfo pui in LevelManager.obtainedPickups)
+        {
+            if (pui.name == "Identity")
+            {
+                pui.Obtained = true;
+                break;
+            }
+            
+        }
+        if (Vector3.Distance(player.transform.position, pickUp.transform.position) < 2.0)
         {
             bm.complete();
             // LevelManager.completeLevel();
