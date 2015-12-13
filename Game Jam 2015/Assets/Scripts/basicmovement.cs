@@ -112,7 +112,7 @@ public class basicmovement : MonoBehaviour {
             {
                 differenceFlag = true; //for accessing the restore rotationAngle condition below
 
-                tempRotationAngle = rotationAngle; //store previous rotation value in a temporary variable
+                //tempRotationAngle = rotationAngle; //store previous rotation value in a temporary variable
 
                 if(differenceRotation < 0) //rotating right towards problem point
                 {
@@ -158,7 +158,7 @@ public class basicmovement : MonoBehaviour {
                 ResetTranslation();
             }
         }
-
+        Debug.Log(debugRotation);
     }
 
     void OnCollisionEnter(Collision col)
@@ -228,7 +228,7 @@ public class basicmovement : MonoBehaviour {
     {
         rotationFlag = false;
 
-        if (differenceFlag)
+        //if (differenceFlag)
         {
             rotationAngle = tempRotationAngle;
             differenceFlag = false;
