@@ -43,22 +43,25 @@ public class basicmovement : MonoBehaviour {
             {
                 if (mm.NumberOfRotateMoves > 0)
                 {
-                    if (lastTurn == inputRotationRight)
+                    if ((rotationFlag && rotationDirection == 1) || !rotationFlag)
                     {
-                        noscopeCounter++;
-                    }
-                    else
-                    {
-                        noscopeCounter = 0;
-                    }
-                    mm.NumberOfRotateMoves--;
-                    rotationDirection = -1;
-                    // StartCoroutine(RotationTimer()); uncomment this for time-based rotation
-                    rotationFlag = true;
-                    currentRotation = transform.rotation.eulerAngles.y;
-                    //Debug.Log(rotationFlag + "rotationFlag");
+                        if (lastTurn == inputRotationRight)
+                        {
+                            noscopeCounter++;
+                        }
+                        else
+                        {
+                            noscopeCounter = 0;
+                        }
+                        mm.NumberOfRotateMoves--;
+                        rotationDirection = -1;
+                        // StartCoroutine(RotationTimer()); uncomment this for time-based rotation
+                        rotationFlag = true;
+                        currentRotation = transform.rotation.eulerAngles.y;
+                        //Debug.Log(rotationFlag + "rotationFlag");
 
-                    debugRotation = transform.rotation.eulerAngles.y;
+                        debugRotation = transform.rotation.eulerAngles.y;
+                    }
                 }
 
             }
@@ -67,24 +70,28 @@ public class basicmovement : MonoBehaviour {
             {
                 if (mm.NumberOfRotateMoves > 0)
                 {
-                    if (lastTurn == inputRotationRight)
+                    if ((rotationFlag && rotationDirection == -1) || !rotationFlag)
                     {
-                        noscopeCounter++;
+                        if (lastTurn == inputRotationRight)
+                        {
+                            noscopeCounter++;
+                        }
+                        else
+                        {
+                            noscopeCounter = 0;
+                        }
+                        mm.NumberOfRotateMoves--;
+                        rotationDirection = 1;
+                        // StartCoroutine(RotationTimer()); uncomment this for time-based rotation
+                        rotationFlag = true;
+                        currentRotation = transform.rotation.eulerAngles.y;
+                        debugRotation = transform.rotation.eulerAngles.y;
                     }
-                    else
-                    {
-                        noscopeCounter = 0;
-                    }
-                    mm.NumberOfRotateMoves--;
-                    rotationDirection = 1;
-                    // StartCoroutine(RotationTimer()); uncomment this for time-based rotation
-                    rotationFlag = true;
-                    currentRotation = transform.rotation.eulerAngles.y;
                 }
 
             }
 
-            if (Input.GetKeyDown(inputTranslation))
+            if (Input.GetKeyDown(inputTranslation) && !translationFlag)
             {
                 if (mm.NumberOfTranslateMoves > 0)
                 {
