@@ -6,7 +6,7 @@ public class basicmovement : MonoBehaviour {
     private string inputRotationLeft, inputRotationRight, inputTranslation;
     public float rotationSpeed, translationSpeed, rotationTime, rotationAngle, tempRotationAngle, translationDistance, reloadTime;
     private int rotationDirection;
-    private bool rotationFlag, translationFlag, differenceFlag, reloadFlag, hasTranslated;
+    private bool rotationFlag, translationFlag, differenceFlag, reloadFlag;
 
     private float currentRotation;
     private Vector3 currentPosition, previousPosition;
@@ -43,22 +43,25 @@ public class basicmovement : MonoBehaviour {
             {
                 if (mm.NumberOfRotateMoves > 0)
                 {
-                    if (lastTurn == inputRotationRight && !hasTranslated)
+                    if ((rotationFlag && rotationDirection == 1) || !rotationFlag)
                     {
-                        noscopeCounter++;
-                    }
-                    else
-                    {
-                        noscopeCounter = 0;
-                    }
-                    mm.NumberOfRotateMoves--;
-                    rotationDirection = -1;
-                    // StartCoroutine(RotationTimer()); uncomment this for time-based rotation
-                    rotationFlag = true;
-                    currentRotation = transform.rotation.eulerAngles.y;
-                    //Debug.Log(rotationFlag + "rotationFlag");
+                        if (lastTurn == inputRotationRight)
+                        {
+                            noscopeCounter++;
+                        }
+                        else
+                        {
+                            noscopeCounter = 0;
+                        }
+                        mm.NumberOfRotateMoves--;
+                        rotationDirection = -1;
+                        // StartCoroutine(RotationTimer()); uncomment this for time-based rotation
+                        rotationFlag = true;
+                        currentRotation = transform.rotation.eulerAngles.y;
+                        //Debug.Log(rotationFlag + "rotationFlag");
 
-                    debugRotation = transform.rotation.eulerAngles.y;
+                        debugRotation = transform.rotation.eulerAngles.y;
+                    }
                 }
 
             }
@@ -67,35 +70,31 @@ public class basicmovement : MonoBehaviour {
             {
                 if (mm.NumberOfRotateMoves > 0)
                 {
-                    if (lastTurn == inputRotationRight && !hasTranslated)
+                    if ((rotationFlag && rotationDirection == -1) || !rotationFlag)
                     {
-                        noscopeCounter++;
+                        if (lastTurn == inputRotationRight)
+                        {
+                            noscopeCounter++;
+                        }
+                        else
+                        {
+                            noscopeCounter = 0;
+                        }
+                        mm.NumberOfRotateMoves--;
+                        rotationDirection = 1;
+                        // StartCoroutine(RotationTimer()); uncomment this for time-based rotation
+                        rotationFlag = true;
+                        currentRotation = transform.rotation.eulerAngles.y;
+                        debugRotation = transform.rotation.eulerAngles.y;
                     }
-                    else
-                    {
-                        noscopeCounter = 0;
-                    }
-                    mm.NumberOfRotateMoves--;
-                    rotationDirection = 1;
-                    // StartCoroutine(RotationTimer()); uncomment this for time-based rotation
-                    rotationFlag = true;
-                    currentRotation = transform.rotation.eulerAngles.y;
                 }
 
             }
 
-            if (Input.GetKeyDown(inputTranslation))
+            if (Input.GetKeyDown(inputTranslation) && !translationFlag)
             {
                 if (mm.NumberOfTranslateMoves > 0)
                 {
-                    if (noscopeCounter < 4)
-                    {
-                        noscopeCounter = 0;
-                    }
-                    else
-                    {
-                        hasTranslated = true;
-                    }
                     mm.NumberOfTranslateMoves--;
                     translationFlag = true;
                     currentPosition = transform.position;
@@ -166,7 +165,10 @@ public class basicmovement : MonoBehaviour {
                 ResetTranslation();
             }
         }
-        //Debug.Log(debugRotation);
+        if (mm.numberOfTranslateMoves == 0 && !rotationFlag && !translationFlag)
+        {
+            StartCoroutine(ReloadTime());
+        }
     }
 
     void OnCollisionEnter(Collision col)
@@ -242,19 +244,5 @@ public class basicmovement : MonoBehaviour {
             differenceFlag = false;
         }
 
-    }
-
-    public void complete()
-    {
-        if (noscopeCounter >= 4 && hasTranslated)
-        {
-
-            AchievementManager.Trigger("360 no-scope");
-        }
-        else
-        {
-            Debug.Log(noscopeCounter);
-            Debug.Log(hasTranslated);
-        }
     }
 }
