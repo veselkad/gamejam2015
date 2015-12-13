@@ -6,7 +6,7 @@ public class basicmovement : MonoBehaviour {
     private string inputRotationLeft, inputRotationRight, inputTranslation;
     public float rotationSpeed, translationSpeed, rotationTime, rotationAngle, tempRotationAngle, translationDistance, reloadTime;
     private int rotationDirection;
-    private bool rotationFlag, translationFlag, differenceFlag, reloadFlag;
+    private bool rotationFlag, translationFlag, differenceFlag, reloadFlag, hasTranslated;
 
     private float currentRotation;
     private Vector3 currentPosition, previousPosition;
@@ -43,7 +43,7 @@ public class basicmovement : MonoBehaviour {
             {
                 if (mm.NumberOfRotateMoves > 0)
                 {
-                    if (lastTurn == inputRotationRight)
+                    if (lastTurn == inputRotationRight && !hasTranslated)
                     {
                         noscopeCounter++;
                     }
@@ -67,7 +67,7 @@ public class basicmovement : MonoBehaviour {
             {
                 if (mm.NumberOfRotateMoves > 0)
                 {
-                    if (lastTurn == inputRotationRight)
+                    if (lastTurn == inputRotationRight && !hasTranslated)
                     {
                         noscopeCounter++;
                     }
@@ -88,6 +88,14 @@ public class basicmovement : MonoBehaviour {
             {
                 if (mm.NumberOfTranslateMoves > 0)
                 {
+                    if (noscopeCounter < 4)
+                    {
+                        noscopeCounter = 0;
+                    }
+                    else
+                    {
+                        hasTranslated = true;
+                    }
                     mm.NumberOfTranslateMoves--;
                     translationFlag = true;
                     currentPosition = transform.position;
@@ -158,7 +166,7 @@ public class basicmovement : MonoBehaviour {
                 ResetTranslation();
             }
         }
-        Debug.Log(debugRotation);
+        //Debug.Log(debugRotation);
     }
 
     void OnCollisionEnter(Collision col)
@@ -234,5 +242,19 @@ public class basicmovement : MonoBehaviour {
             differenceFlag = false;
         }
 
+    }
+
+    public void complete()
+    {
+        if (noscopeCounter >= 4 && hasTranslated)
+        {
+
+            AchievementManager.Trigger("360 no-scope");
+        }
+        else
+        {
+            Debug.Log(noscopeCounter);
+            Debug.Log(hasTranslated);
+        }
     }
 }

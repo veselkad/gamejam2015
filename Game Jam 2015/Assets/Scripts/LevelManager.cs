@@ -60,6 +60,7 @@ public class LevelManager : MonoBehaviour {
     void Start () {
         //Debug.Log("Instantiated level manager");
         DontDestroyOnLoad(this);
+        
         obtainedPickups = new List<pickupInfo>();
         obtainedPickups.Add(new pickupInfo("Translation", "Adds translation moves", "translation", "translation"));
         obtainedPickups.Add(new pickupInfo("Rotation", "Adds rotation moves", "rotation", "rotation"));
@@ -173,6 +174,10 @@ public class LevelManager : MonoBehaviour {
 
         else if (Status == menuStatus.achievementsDisplay)
         {
+            if (GUILayout.Button("Return"))
+            {
+                Status = menuStatus.mainMenu;
+            }
             int x, y;
             y = 25;
             foreach (Achievement ach in achievements)
@@ -186,7 +191,9 @@ public class LevelManager : MonoBehaviour {
                 {
                     GUI.DrawTexture(new Rect(x, y, 50, 50), Achievement.unknownTexture);
                 }
-                
+                x = 75;
+                GUI.Label(new Rect(x, y, 200, 50), ach.name + "\n" + ach.description);
+                y += 60;                
             }
         }
 

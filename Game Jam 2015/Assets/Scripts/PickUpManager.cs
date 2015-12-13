@@ -5,6 +5,7 @@ public class PickUpManager : MonoBehaviour
 {
     private GameObject pickUp;
     private LevelManager levelManager;
+    private basicmovement bm;
 
     public GameObject PickUp
     {
@@ -23,6 +24,7 @@ public class PickUpManager : MonoBehaviour
     void Start()
     {
         pickUp = GameObject.FindGameObjectWithTag("pickUp");
+        bm = GameObject.FindObjectOfType<basicmovement>();
         //levelManager = GameObject.FindObjectOfType<LevelManager>();
     }
 
@@ -34,7 +36,7 @@ public class PickUpManager : MonoBehaviour
         pickUp.transform.Rotate(new Vector3(0, 30, 0) * Time.deltaTime);
         if (Vector3.Distance(player.transform.position, pickUp.transform.position) < 1.6)
         {
-            Debug.Log("complete");
+            bm.complete();
             LevelManager.completeLevel();
         }
     }
