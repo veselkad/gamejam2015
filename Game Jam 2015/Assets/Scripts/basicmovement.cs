@@ -41,14 +41,17 @@ public class basicmovement : MonoBehaviour {
             {
                 if (mm.NumberOfRotateMoves > 0)
                 {
-                    mm.NumberOfRotateMoves--;
-                    rotationDirection = -1;
-                    // StartCoroutine(RotationTimer()); uncomment this for time-based rotation
-                    rotationFlag = true;
-                    currentRotation = transform.rotation.eulerAngles.y;
-                    //Debug.Log(rotationFlag + "rotationFlag");
+                    if ((rotationFlag && rotationDirection == 1) || !rotationFlag)
+                    {
+                        mm.NumberOfRotateMoves--;
+                        rotationDirection = -1;
+                        // StartCoroutine(RotationTimer()); uncomment this for time-based rotation
+                        rotationFlag = true;
+                        currentRotation = transform.rotation.eulerAngles.y;
+                        //Debug.Log(rotationFlag + "rotationFlag");
 
-                    debugRotation = transform.rotation.eulerAngles.y;
+                        debugRotation = transform.rotation.eulerAngles.y;
+                    }
                 }
 
             }
@@ -57,16 +60,19 @@ public class basicmovement : MonoBehaviour {
             {
                 if (mm.NumberOfRotateMoves > 0)
                 {
+                    if((rotationFlag && rotationDirection == -1) || !rotationFlag)
                     mm.NumberOfRotateMoves--;
                     rotationDirection = 1;
                     // StartCoroutine(RotationTimer()); uncomment this for time-based rotation
                     rotationFlag = true;
                     currentRotation = transform.rotation.eulerAngles.y;
+
+                    debugRotation = transform.rotation.eulerAngles.y;
                 }
 
             }
 
-            if (Input.GetKeyDown(inputTranslation))
+            if (Input.GetKeyDown(inputTranslation) && !translationFlag)
             {
                 if (mm.NumberOfTranslateMoves > 0)
                 {
@@ -140,7 +146,12 @@ public class basicmovement : MonoBehaviour {
                 ResetTranslation();
             }
         }
-        Debug.Log(debugRotation);
+
+        // let the player respawn when out of moves
+        if(!translationFlag && !rotationFlag && mm.numberOfRotateMoves == 0 && mm.numberOfTranslateMoves == 0)
+        {
+            StartCoroutine(ReloadTime());
+        }
     }
 
     void OnCollisionEnter(Collision col)
