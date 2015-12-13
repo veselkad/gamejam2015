@@ -259,9 +259,5 @@ public class basicmovement : MonoBehaviour {
         {
             AchievementManager.Trigger("360 no-scope");
         }
-        else
-        {
-            Debug.Log(noscopeCounter);
-        }
     }
 }

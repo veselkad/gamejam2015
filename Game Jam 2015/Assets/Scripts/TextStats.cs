@@ -10,11 +10,11 @@ public class TextStats : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         txt = GetComponent<Text>();
-        Debug.Log(txt);
+        //Debug.Log(txt);
         txt.text = "";
         mm = FindObjectOfType<MovesManager>();
         //lm = FindObjectOfType<LevelManager>();
-        Debug.Log(mm);
+        //Debug.Log(mm);
 	}
 	
 	// Update is called once per frame
