@@ -32,7 +32,6 @@ public class PickUpManager : MonoBehaviour
         basicmovement player = GameObject.FindObjectOfType<basicmovement>();
 
         pickUp.transform.Rotate(new Vector3(0, 30, 0) * Time.deltaTime);
-        Debug.Log(Vector3.Distance(player.transform.position, pickUp.transform.position) + "distance");
         if (Vector3.Distance(player.transform.position, pickUp.transform.position) < 1.6)
         {
             Debug.Log("complete");
