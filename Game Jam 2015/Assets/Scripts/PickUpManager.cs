@@ -6,6 +6,8 @@ public class PickUpManager : MonoBehaviour
     private GameObject pickUp;
     private LevelManager levelManager;
     private basicmovement bm;
+    public float rotationSpeed = 60;
+    public float translationSpeed = 0;
 
     public GameObject PickUp
     {
@@ -33,11 +35,23 @@ public class PickUpManager : MonoBehaviour
     {
         basicmovement player = GameObject.FindObjectOfType<basicmovement>();
 
-        pickUp.transform.Rotate(new Vector3(0, 30, 0) * Time.deltaTime);
+        Debug.Log(pickUp.name);
+        pickUp.transform.Rotate(new Vector3(0, rotationSpeed, 0) * Time.deltaTime);
+        pickUp.transform.Translate(new Vector3(0, translationSpeed, 0) * Time.deltaTime);
+
         if (Vector3.Distance(player.transform.position, pickUp.transform.position) < 1.6)
         {
             bm.complete();
-            LevelManager.completeLevel();
+            // LevelManager.completeLevel();
+            StartCoroutine(FinishLevel());
         }
+    }
+
+    IEnumerator FinishLevel()
+    {
+        rotationSpeed = 180;
+        translationSpeed = 20;
+        yield return new WaitForSeconds(1);
+        LevelManager.completeLevel();
     }
 }
