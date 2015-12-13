@@ -16,6 +16,9 @@ public class basicmovement : MonoBehaviour {
     private LevelManager lm;
     private int noscopeCounter;
     private string lastTurn;
+
+    public GameObject blood;
+
     //private SetActive sa;
 
 	// Use this for initialization
@@ -222,6 +225,7 @@ public class basicmovement : MonoBehaviour {
     IEnumerator ReloadTime()
     {
         reloadFlag = false;
+        Instantiate(blood, transform.position, Quaternion.identity);
         yield return new WaitForSeconds(reloadTime);
         Application.LoadLevel(Application.loadedLevel);
         reloadFlag = true;
