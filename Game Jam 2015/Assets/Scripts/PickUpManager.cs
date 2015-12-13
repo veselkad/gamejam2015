@@ -51,7 +51,7 @@ public class PickUpManager : MonoBehaviour
     {
         rotationSpeed = 180;
         translationSpeed = 20;
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.9f);
         LevelManager.completeLevel();
     }
 }
