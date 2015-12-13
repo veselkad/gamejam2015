@@ -17,6 +17,8 @@ public class basicmovement : MonoBehaviour {
     private int noscopeCounter;
     private string lastTurn;
 
+    private bool finished;
+
     public GameObject blood;
 
     public static MeshRenderer mr;
@@ -35,6 +37,7 @@ public class basicmovement : MonoBehaviour {
         tempRotationAngle = rotationAngle;
         totalTranslation = 0;
         reloadFlag = true;
+        finished = false;
 	}
 	
 	// Update is called once per frame
@@ -176,7 +179,7 @@ public class basicmovement : MonoBehaviour {
                 ResetTranslation();
             }
         }
-        if (mm.numberOfTranslateMoves == 0 && !rotationFlag && !translationFlag)
+        if (mm.numberOfTranslateMoves == 0 && !rotationFlag && !translationFlag && reloadFlag)
         {
 
             StartCoroutine(ReloadTime());
@@ -191,6 +194,8 @@ public class basicmovement : MonoBehaviour {
 
         if (reloadFlag && !col.gameObject.CompareTag("rotatepickup") && !col.gameObject.CompareTag("translatepickup"))
         {
+            Debug.Log("aoeusnth");
+            finished = true;
             StartCoroutine(ReloadTime());
         }
     }
@@ -229,7 +234,8 @@ public class basicmovement : MonoBehaviour {
     IEnumerator ReloadTime()
     {
         reloadFlag = false;
-        Instantiate(blood, transform.position, Quaternion.identity);
+            Debug.Log(finished);
+            Instantiate(blood, transform.position, Quaternion.identity);
         mr.enabled = false;
         yield return new WaitForSeconds(reloadTime);
         Application.LoadLevel(Application.loadedLevel);
