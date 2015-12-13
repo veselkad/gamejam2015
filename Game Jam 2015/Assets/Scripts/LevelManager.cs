@@ -13,8 +13,9 @@ public class LevelManager : MonoBehaviour {
     static int maxLevel;
     static menuStatus status;
     public static List<pickupInfo> obtainedPickups;
+    public static List<Achievement> achievements;
     public static bool paused;
-
+    
 #if UNITY_EDITOR
     [MenuItem("Edit/Reset Playerprefs")]
     public static void DeletePlayerPrefs() { PlayerPrefs.DeleteAll(); }
@@ -22,9 +23,9 @@ public class LevelManager : MonoBehaviour {
     [MenuItem("Play/Play game")]
     public static void PlayGame()
     {
+        EditorApplication.SaveScene(EditorApplication.currentScene);
+        EditorApplication.OpenScene("Assets/_Scenes/init.unity");
         EditorApplication.isPlaying = true;
-        Application.UnloadLevel(Application.loadedLevel);
-        Application.LoadLevel("init");
     }
 #endif
 
@@ -62,6 +63,8 @@ public class LevelManager : MonoBehaviour {
         obtainedPickups = new List<pickupInfo>();
         obtainedPickups.Add(new pickupInfo("Translation", "Adds translation moves", "translation", "translation"));
         obtainedPickups.Add(new pickupInfo("Rotation", "Adds rotation moves", "rotation", "rotation"));
+        obtainedPickups.Add(new pickupInfo("Identity", "Completes the level", "identity", "identity"));
+        
         currentLevel = -1;              //-1 indicates menu
         if (PlayerPrefs.HasKey("levelsUnlocked"))
         {
@@ -78,19 +81,13 @@ public class LevelManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        //Debug.Log(status);
     }
 
-    //private void displayMenu()
-    //{
-
-    //}
 
     public static void loadLevel(int level)
     {
         if (level == -1)
         {
-            //Debug.Log("level -1");
             Status = menuStatus.mainMenu;
             Application.LoadLevel("mainMenu");
         }
@@ -98,7 +95,6 @@ public class LevelManager : MonoBehaviour {
         {
             currentLevel = level;
             Status = menuStatus.ingame;
-            //Debug.Log("Status: " + status);
             Application.LoadLevel("level"+level);
         }
     }
@@ -111,17 +107,15 @@ public class LevelManager : MonoBehaviour {
         }
         loadLevel(-1);
         Status = menuStatus.levelSelect;
-        //Debug.Log("Loaded level select? ");
     }
 
     void OnGUI()
     {
         if (Status == menuStatus.mainMenu)
         {
-            //Debug.Log("wut");
             if (GUILayout.Button("Play game"))
             {
-                loadLevel(levelsUnlocked);
+                loadLevel(Math.Min(levelsUnlocked,maxLevel));
             }
             else if (GUILayout.Button("Level select"))
             {
@@ -130,6 +124,10 @@ public class LevelManager : MonoBehaviour {
             else if (GUILayout.Button("Pickups"))
             {
                 Status = menuStatus.pickupDisplay;
+            }
+            else if (GUILayout.Button("Achievements"))
+            {
+                Status = menuStatus.achievementsDisplay;
             }
             else if (GUILayout.Button("More games"))
             {
@@ -143,6 +141,8 @@ public class LevelManager : MonoBehaviour {
                 Application.Quit();
             }
         }
+        
+
         else if (Status == menuStatus.pickupDisplay)
         {
             if (GUILayout.Button("Return"))
@@ -169,6 +169,28 @@ public class LevelManager : MonoBehaviour {
                 y += 60;
             }
         }
+
+
+        else if (Status == menuStatus.achievementsDisplay)
+        {
+            int x, y;
+            y = 25;
+            foreach (Achievement ach in achievements)
+            {
+                x = 15;
+                if (ach.Obtained)
+                {
+                    GUI.DrawTexture(new Rect(x, y, 50, 50), ach.obtainedTexture);
+                }
+                else
+                {
+                    GUI.DrawTexture(new Rect(x, y, 50, 50), Achievement.unknownTexture);
+                }
+                
+            }
+        }
+
+
         else if (Status == menuStatus.levelSelect)
         {
             for(int i = 0; i<=Math.Min(levelsUnlocked, maxLevel); i++)
@@ -183,6 +205,8 @@ public class LevelManager : MonoBehaviour {
                 Status = menuStatus.mainMenu;
             }
         }
+
+
         else if (Status == menuStatus.ingame && paused)
         {
             if (GUILayout.Button("Return to game"))
@@ -210,6 +234,6 @@ public enum menuStatus
     mainMenu,
     levelSelect,
     pickupDisplay,
-    //achievementsDisplay,
+    achievementsDisplay,
 }
 
