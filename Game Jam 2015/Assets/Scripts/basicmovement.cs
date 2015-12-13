@@ -17,6 +17,9 @@ public class basicmovement : MonoBehaviour {
     private int noscopeCounter;
     private string lastTurn;
 
+    private AudioSource audio1;
+    public AudioClip powerupSound;
+
     private bool finished;
 
     public GameObject blood;
@@ -27,6 +30,9 @@ public class basicmovement : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
+        audio1 = GetComponent<AudioSource>();
+
         mr = GetComponent<MeshRenderer>();
         inputRotationLeft = KeyManager.inputRotationLeft;
         inputRotationRight = KeyManager.inputRotationRight;
@@ -213,6 +219,7 @@ public class basicmovement : MonoBehaviour {
                 }
             }
             mm.NumberOfRotateMoves += 10;
+            audio1.PlayOneShot(powerupSound, 1);
             col.gameObject.SetActive(false);
         }
 
@@ -227,6 +234,7 @@ public class basicmovement : MonoBehaviour {
                 }
             }
             mm.numberOfTranslateMoves += 10;
+            audio1.PlayOneShot(powerupSound, 1);
             col.gameObject.SetActive(false);
         }
     }
