@@ -45,14 +45,15 @@ public class basicmovement : MonoBehaviour {
                 {
                     if ((rotationFlag && rotationDirection == 1) || !rotationFlag)
                     {
-                        if (lastTurn == inputRotationRight && !hasTranslated)
+                        if (lastTurn == inputRotationLeft && !hasTranslated)
                         {
                             noscopeCounter++;
                         }
                         else
                         {
                             hasTranslated = false;
-                            noscopeCounter = 0;
+                            noscopeCounter = 1;
+                            lastTurn = inputRotationLeft;
                         }
                         mm.NumberOfRotateMoves--;
                         rotationDirection = -1;
@@ -80,7 +81,8 @@ public class basicmovement : MonoBehaviour {
                         else
                         {
                             hasTranslated = false;
-                            noscopeCounter = 0;
+                            noscopeCounter = 1;
+                            lastTurn = inputRotationRight;
                         }
                         mm.NumberOfRotateMoves--;
                         rotationDirection = 1;
