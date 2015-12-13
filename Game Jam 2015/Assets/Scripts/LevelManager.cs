@@ -235,7 +235,9 @@ public class LevelManager : MonoBehaviour {
             }
             else if (GUILayout.Button("Quit to main menu"))
             {
+                paused = false;
                 Status = menuStatus.mainMenu;
+                Application.LoadLevel("mainMenu");
             }
         }
     }

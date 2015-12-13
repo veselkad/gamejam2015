@@ -14,7 +14,7 @@ public class KeyManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	    if (Input.GetKeyDown("escape"))
+	    if (Input.GetKeyDown("escape") && LevelManager.Status==menuStatus.ingame)
         {
             LevelManager.paused = !LevelManager.paused;
         }

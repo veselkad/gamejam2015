@@ -197,6 +197,7 @@ public class basicmovement : MonoBehaviour {
                 if (pui.name == "Rotation")
                 {
                     pui.Obtained = true;
+                    break;
                 }
             }
             mm.NumberOfRotateMoves += 10;
@@ -210,6 +211,7 @@ public class basicmovement : MonoBehaviour {
                 if (pui.name == "Translation")
                 {
                     pui.Obtained = true;
+                    break;
                 }
             }
             mm.numberOfTranslateMoves += 10;

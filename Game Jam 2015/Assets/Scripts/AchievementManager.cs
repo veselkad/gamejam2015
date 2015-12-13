@@ -7,6 +7,9 @@ public class AchievementManager : MonoBehaviour {
     static Achievement mostRecentAch;
     static AchievementManager achMan;
 
+    private static Texture2D boxTexture;
+    private static GUIStyle boxStyle;
+
 	// Use this for initialization
 	void Start () {
         LevelManager.achievements = new List<Achievement>();
@@ -15,6 +18,10 @@ public class AchievementManager : MonoBehaviour {
         LevelManager.achievements.Add(new Achievement("Quinoa", "Hidden achievement!", "quinoa"));
         LevelManager.achievements.Add(new Achievement("360 no-scope", "Hidden achievement!", "360_noscope"));
         achMan = this;
+        boxTexture = new Texture2D(1, 1);
+        boxTexture.SetPixel(0, 0, new Color(84, 84, 84));
+        boxStyle = new GUIStyle();
+        boxStyle.normal.background = boxTexture;
     }
 	
 	// Update is called once per frame
@@ -43,8 +50,9 @@ public class AchievementManager : MonoBehaviour {
     {
         if (mostRecentAch!= null)
         {
-            GUI.DrawTexture(new Rect(Screen.width-160, 0, 50, 50), mostRecentAch.obtainedTexture);
-            GUI.Label(new Rect(Screen.width-100, 10, 100, 40), "Achievement GET!");
+            GUI.Box(new Rect(Screen.width - 170, 0, 170, 70),GUIContent.none, boxStyle);
+            GUI.DrawTexture(new Rect(Screen.width-160, 10, 50, 50), mostRecentAch.obtainedTexture);
+            GUI.Label(new Rect(Screen.width-100, 20, 100, 40), "Achievement GET!");
         }
     }
 
