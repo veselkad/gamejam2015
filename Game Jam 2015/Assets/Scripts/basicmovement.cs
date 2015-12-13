@@ -16,10 +16,16 @@ public class basicmovement : MonoBehaviour {
     private LevelManager lm;
     private int noscopeCounter;
     private string lastTurn;
+
+    public GameObject blood;
+
+    public static MeshRenderer mr;
+
     //private SetActive sa;
 
 	// Use this for initialization
 	void Start () {
+        mr = GetComponent<MeshRenderer>();
         inputRotationLeft = KeyManager.inputRotationLeft;
         inputRotationRight = KeyManager.inputRotationRight;
         inputTranslation = KeyManager.inputTranslation;
@@ -172,6 +178,7 @@ public class basicmovement : MonoBehaviour {
         }
         if (mm.numberOfTranslateMoves == 0 && !rotationFlag && !translationFlag)
         {
+
             StartCoroutine(ReloadTime());
         }
     }
@@ -222,6 +229,8 @@ public class basicmovement : MonoBehaviour {
     IEnumerator ReloadTime()
     {
         reloadFlag = false;
+        Instantiate(blood, transform.position, Quaternion.identity);
+        mr.enabled = false;
         yield return new WaitForSeconds(reloadTime);
         Application.LoadLevel(Application.loadedLevel);
         reloadFlag = true;
