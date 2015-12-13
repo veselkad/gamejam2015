@@ -132,6 +132,7 @@ public class LevelManager : MonoBehaviour {
             }
             else if (GUILayout.Button("More games"))
             {
+                AchievementManager.Trigger("Quinoa");
                 Application.OpenURL("https://drproject.twi.tudelft.nl/ewi3620tu1/Index.html");
             }
             else if (GUILayout.Button("Quit"))

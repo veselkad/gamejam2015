@@ -2,7 +2,7 @@
 
 public class Achievement
 {
-    bool obtained;
+    bool obtained, triggered;
     public static Texture2D unknownTexture = (Texture2D)Resources.Load("unknown");
     public Texture2D obtainedTexture;
     public string name, description;
@@ -41,7 +41,15 @@ public class Achievement
         if (!Obtained)
         {
             Obtained = true;
+        }
+    }
 
+    void OnGUI()
+    {
+        if (triggered)
+        {
+            GUI.DrawTexture(new Rect(0,0,50,50),obtainedTexture);
+            GUI.Label(new Rect(60, 10, 100, 40), "Achievement GET!");
         }
     }
 }

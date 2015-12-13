@@ -7,6 +7,9 @@ public class AchievementManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         LevelManager.achievements = new List<Achievement>();
+        LevelManager.achievements.Add(new Achievement("First steps", "Complete the first level", "level1"));
+        LevelManager.achievements.Add(new Achievement("Master", "Complete the fifth level", "level5"));
+        LevelManager.achievements.Add(new Achievement("Quinoa", "Hidden achievement!", "quinoa"));
         LevelManager.achievements.Add(new Achievement("360 no-scope", "Hidden achievement!", "360_noscope"));
     }
 	
