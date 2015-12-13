@@ -9,6 +9,11 @@ public class PickUpManager : MonoBehaviour
     public float rotationSpeed = 60;
     public float translationSpeed = 0;
 
+    private bool audioFlag;
+
+    private AudioSource audio1;
+    public AudioClip endsound;
+
     public GameObject PickUp
     {
         get
@@ -25,9 +30,12 @@ public class PickUpManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        audio1 = GetComponent<AudioSource>();
         pickUp = GameObject.FindGameObjectWithTag("pickUp");
         bm = GameObject.FindObjectOfType<basicmovement>();
         //levelManager = GameObject.FindObjectOfType<LevelManager>();
+
+      //  endsound = GetComponent<AudioClip>();
     }
 
     // Update is called once per frame
@@ -55,9 +63,15 @@ public class PickUpManager : MonoBehaviour
 
     IEnumerator FinishLevel()
     {
+        if (!audioFlag)
+        {
+            audio1.PlayOneShot(endsound, 1);
+            audioFlag = true;
+        }
         rotationSpeed = 180;
         translationSpeed = 20;
         yield return new WaitForSeconds(0.9f);
+        audioFlag = false;
         LevelManager.completeLevel();
     }
 }
