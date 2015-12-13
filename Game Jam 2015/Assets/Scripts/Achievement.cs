@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Achievement
 {
@@ -44,12 +45,20 @@ public class Achievement
         }
     }
 
-    void OnGUI()
-    {
-        if (triggered)
-        {
-            GUI.DrawTexture(new Rect(0,0,50,50),obtainedTexture);
-            GUI.Label(new Rect(60, 10, 100, 40), "Achievement GET!");
-        }
-    }
+    //void OnGUI()
+    //{
+    //    if (triggered)
+    //    {
+    //        GUI.DrawTexture(new Rect(0,0,50,50),obtainedTexture);
+    //        GUI.Label(new Rect(60, 10, 100, 40), "Achievement GET!");
+    //    }
+    //}
+
+    //IEnumerator triggerTimer()
+    //{
+    //    yield return new WaitForSeconds(3);
+    //    triggered = false;
+    //    //yield break;
+    //}
+
 }
