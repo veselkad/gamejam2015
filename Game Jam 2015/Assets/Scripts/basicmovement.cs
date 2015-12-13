@@ -165,7 +165,10 @@ public class basicmovement : MonoBehaviour {
                 ResetTranslation();
             }
         }
-        Debug.Log(debugRotation);
+        if (mm.numberOfTranslateMoves == 0 && !rotationFlag && !translationFlag)
+        {
+            StartCoroutine(ReloadTime());
+        }
     }
 
     void OnCollisionEnter(Collision col)
