@@ -9,12 +9,11 @@ public class pickupInfo
 
     public pickupInfo(string nm, string desc, string ingTex, string mathTex)
     {
-        Obtained = false;
         name = nm;
         description = desc;
         ingameTexture = (Texture2D)Resources.Load(ingTex);
-        Debug.Log(ingTex);
-        Debug.Log(ingameTexture);
+        //Debug.Log(ingTex);
+        //Debug.Log(ingameTexture);
         mathematicalTexture = (Texture2D)Resources.Load(mathTex);
     }
 
@@ -22,11 +21,20 @@ public class pickupInfo
     {
         get
         {
-            return obtained;
+            if (PlayerPrefs.HasKey("pickup_" + name))
+            {
+                return (PlayerPrefs.GetInt("pickup_" + name) == 1);
+            }
+            else
+            {
+                Obtained = false;
+                return false;
+            }
         }
 
         set
         {
+            PlayerPrefs.SetInt("pickup_" + name, value ? 1 : 0);
             obtained = value;
         }
     }
