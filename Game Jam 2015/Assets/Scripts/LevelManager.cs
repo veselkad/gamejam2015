@@ -15,6 +15,7 @@ public class LevelManager : MonoBehaviour {
     public static List<pickupInfo> obtainedPickups;
     public static List<Achievement> achievements;
     public static bool paused;
+    public static GUIStyle instructionStyle;
     
 #if UNITY_EDITOR
     [MenuItem("Edit/Reset Playerprefs")]
@@ -77,6 +78,9 @@ public class LevelManager : MonoBehaviour {
         }
         maxLevel = Application.levelCount - 3;              //Max index, -2 for init and menu, -1 for level number to level index
         //Debug.Log("Started");
+        instructionStyle = new GUIStyle();
+        instructionStyle.normal.textColor = Color.red;
+
         Status = menuStatus.mainMenu;
 	}
 
@@ -129,6 +133,10 @@ public class LevelManager : MonoBehaviour {
             {
                 Status = menuStatus.levelSelect;
             }
+            else if (GUILayout.Button("Instructions"))
+            {
+                Status = menuStatus.instructions;
+            }
             else if (GUILayout.Button("Pickups"))
             {
                 Status = menuStatus.pickupDisplay;
@@ -151,6 +159,24 @@ public class LevelManager : MonoBehaviour {
             }
         }
         
+
+        else if (Status == menuStatus.instructions)
+        {
+            if (GUILayout.Button("Return"))
+            {
+                Status = menuStatus.mainMenu;
+            }
+            string instr = @"The goal of each level is to reach the identity matrix.
+This can be done by moving forward (w), and rotating (q/e).
+You can interrupt a turn by turning in the other direction.
+You can move and turn at the same time - but be careful!
+The key to succes is to do so in the right order!
+
+You only have a limited amount of moves, use them wisely.
+In some levels, you may find additional moves.";
+            GUI.Label(new Rect(30, 30, 400, 1000), instr, instructionStyle);
+        }
+
 
         else if (Status == menuStatus.pickupDisplay)
         {
@@ -249,6 +275,7 @@ public enum menuStatus
 {
     ingame,
     mainMenu,
+    instructions,
     levelSelect,
     pickupDisplay,
     achievementsDisplay,
